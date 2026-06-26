@@ -1,0 +1,19 @@
+color=0a0a0a
+inside-color=0a0a0a
+inside-clear-color=111111
+inside-ver-color=111111
+inside-wrong-color=111111
+ring-color=27272a
+ring-clear-color=71717a
+ring-ver-color=a1a1aa
+ring-wrong-color=3f3f46
+key-hl-color=e4e4e7
+bs-hl-color=71717a
+text-color=71717a
+text-clear-color=a1a1aa
+text-ver-color=a1a1aa
+text-wrong-color=3f3f46
+line-uses-ring
+font=JetBrains Mono
+indicator-radius=60
+indicator-thickness=4

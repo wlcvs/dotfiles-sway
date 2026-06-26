@@ -1,0 +1,8 @@
+TERMINAL=alacritty
+GTK_THEME=Adwaita:dark
+EDITOR=nvim
+XDG_DATA_HOME=/home/wlcsv/.local/share
+XDG_DATA_DIRS=/home/wlcsv/.local/share:/usr/local/share:/usr/share
+NO_COLOR=1
+XCURSOR_THEME=DMZ-White
+XCURSOR_SIZE=24

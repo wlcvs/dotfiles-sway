@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+import i3ipc, sys
+
+direction = sys.argv[1] if len(sys.argv) > 1 else 'next'
+
+ipc = i3ipc.Connection()
+tree = ipc.get_tree()
+leaves = list(tree.leaves())
+
+if not leaves:
+    sys.exit(0)
+
+focused = tree.find_focused()
+ids = [c.id for c in leaves]
+
+if focused is None or focused.id not in ids:
+    idx = 0
+else:
+    idx = ids.index(focused.id)
+
+if direction == 'next':
+    target = ids[(idx + 1) % len(ids)]
+else:
+    target = ids[(idx - 1) % len(ids)]
+
+ipc.command(f'[con_id={target}] focus')

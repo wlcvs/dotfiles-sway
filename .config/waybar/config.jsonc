@@ -1,0 +1,88 @@
+{
+    "height": 26,
+    "spacing": 0,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "network",
+        "pulseaudio",
+        "custom/power-profile",
+        "battery"
+    ],
+
+    "sway/workspaces": {
+        "format": "{name}",
+        "disable-scroll": true
+    },
+
+    "sway/mode": {
+        "format": "  {}  "
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "BRT {percent}%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "VOL {volume}%",
+        "format-muted": "MUTE",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip": false
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": "Wi-Fi: {essid}",
+        "format-ethernet": "ETH",
+        "format-disconnected": "NO NET",
+        "format-linked": "NO IP",
+        "tooltip": false
+    },
+
+    "custom/power-profile": {
+        "exec": "/home/wlcsv/.local/bin/power-profile",
+        "interval": 3,
+        "on-click": "/home/wlcsv/.local/bin/power-profile cycle",
+        "tooltip": false
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "BAT {capacity}%",
+        "format-charging": "CHR {capacity}%",
+        "format-plugged": "AC {capacity}%",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%H:%M  %d/%m/%Y}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "",
+            "on-scroll"     : 1,
+            "format": {
+                "months":   "{}",
+                "days":     "{}",
+                "weekdays": "{}",
+                "today":    "<b>{}</b>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-scroll-up":   "shift_up",
+            "on-scroll-down": "shift_down"
+        },
+        "tooltip": true
+    }
+}

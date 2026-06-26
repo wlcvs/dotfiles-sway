@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+used=$(swaymsg -t get_workspaces | jq '[.[].num]')
+for i in $(seq 1 10); do
+    if ! echo "$used" | jq -e "contains([$i])" > /dev/null 2>&1; then
+        swaymsg "workspace number $i"
+        exit 0
+    fi
+done
+next=$(echo "$used" | jq 'max + 1')
+swaymsg "workspace number $next"
