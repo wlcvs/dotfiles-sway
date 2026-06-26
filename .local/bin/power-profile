@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+get_profile() {
+    busctl get-property net.hadess.PowerProfiles \
+        /net/hadess/PowerProfiles \
+        net.hadess.PowerProfiles ActiveProfile \
+        2>/dev/null | awk '{print $2}' | tr -d '"'
+}
+
+set_profile() {
+    busctl set-property net.hadess.PowerProfiles \
+        /net/hadess/PowerProfiles \
+        net.hadess.PowerProfiles ActiveProfile s "$1"
+}
+
+case "$1" in
+    cycle)
+        current=$(get_profile)
+        case "$current" in
+            power-saver)  set_profile balanced ;;
+            balanced)     set_profile performance ;;
+            performance)  set_profile power-saver ;;
+        esac
+        ;;
+    *)
+        current=$(get_profile)
+        case "$current" in
+            power-saver)  echo "SAVE" ;;
+            balanced)     echo "BAL" ;;
+            performance)  echo "PERF" ;;
+            *)            echo "${current:-?}" ;;
+        esac
+        ;;
+esac

@@ -49,10 +49,14 @@ gsettings set org.gnome.desktop.interface cursor-size 24
 echo "==> Linking scripts..."
 mkdir -p ~/.local/bin
 ln -sf "$DOTFILES/.local/bin/clipboard"             ~/.local/bin/clipboard
+ln -sf "$DOTFILES/.local/bin/volume-tui"            ~/.local/bin/volume-tui
+ln -sf "$DOTFILES/.local/bin/power-profile"         ~/.local/bin/power-profile
 ln -sf "$DOTFILES/.local/bin/sway-alt-tab"          ~/.local/bin/sway-alt-tab
 ln -sf "$DOTFILES/.local/bin/first-empty-workspace" ~/.local/bin/first-empty-workspace
 chmod +x \
   "$DOTFILES/.local/bin/clipboard" \
+  "$DOTFILES/.local/bin/volume-tui" \
+  "$DOTFILES/.local/bin/power-profile" \
   "$DOTFILES/.local/bin/sway-alt-tab" \
   "$DOTFILES/.local/bin/first-empty-workspace"
 
