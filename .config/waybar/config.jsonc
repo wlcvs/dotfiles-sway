@@ -46,9 +46,9 @@
     },
 
     "custom/power-profile": {
-        "exec": "/home/wlcsv/.local/bin/power-profile",
+        "exec": "~/.local/bin/power-profile",
         "interval": 3,
-        "on-click": "/home/wlcsv/.local/bin/power-profile cycle",
+        "on-click": "~/.local/bin/power-profile cycle",
         "tooltip": false
     },
 
