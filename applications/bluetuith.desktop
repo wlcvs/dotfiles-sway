@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Bluetuith
+Comment=TUI Bluetooth Manager
+Exec=bluetuith
+Icon=bluetooth
+Type=Application
+Terminal=true
+Categories=System;Network;
+Keywords=bluetooth;tui;

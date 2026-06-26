@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Btop
+Comment=TUI System Monitor
+Exec=btop
+Icon=utilities-system-monitor
+Type=Application
+Terminal=true
+Categories=System;Monitor;
+Keywords=cpu;memory;process;monitor;tui;

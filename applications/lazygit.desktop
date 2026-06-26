@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lazygit
+Comment=TUI Git Client
+Exec=alacritty -e lazygit
+Icon=git
+Type=Application
+Categories=Development;
+Keywords=git;tui;

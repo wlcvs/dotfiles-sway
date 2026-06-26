@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Yazi
+Comment=Terminal File Manager
+Exec=yazi
+Icon=system-file-manager
+Type=Application
+Terminal=true
+Categories=System;FileManager;
+Keywords=files;explorer;tui;

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Pulsemixer
+Comment=TUI Audio Mixer
+Exec=pulsemixer
+Icon=audio-volume-high
+Type=Application
+Terminal=true
+Categories=AudioVideo;Mixer;
+Keywords=audio;volume;mixer;tui;

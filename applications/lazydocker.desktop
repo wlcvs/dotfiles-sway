@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lazydocker
+Comment=TUI Docker Manager
+Exec=alacritty -e lazydocker
+Icon=docker
+Type=Application
+Categories=System;
+Keywords=docker;container;tui;

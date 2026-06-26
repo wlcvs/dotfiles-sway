@@ -30,6 +30,11 @@ ln -sf "$DOTFILES/.config/swaylock/config" ~/.config/swaylock/
 mkdir -p ~/.config/swaynag
 ln -sf "$DOTFILES/.config/swaynag/config" ~/.config/swaynag/
 
+echo "==> Installing desktop entries for TUI apps..."
+mkdir -p ~/.local/share/applications
+cp "$DOTFILES/applications/"*.desktop ~/.local/share/applications/
+cp "$DOTFILES/applications/hidden/"*.desktop ~/.local/share/applications/
+
 echo "==> Linking Rofi, Dunst and GTK configs..."
 mkdir -p ~/.config/rofi
 ln -sf "$DOTFILES/.config/rofi/config.rasi" ~/.config/rofi/

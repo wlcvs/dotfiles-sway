@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Network Manager
+Comment=TUI Network Manager
+Exec=nmtui
+Icon=network-wired
+Type=Application
+Terminal=true
+Categories=System;Network;
+Keywords=network;wifi;vpn;tui;
