@@ -48,9 +48,13 @@ gsettings set org.gnome.desktop.interface cursor-size 24
 
 echo "==> Linking scripts..."
 mkdir -p ~/.local/bin
+ln -sf "$DOTFILES/.local/bin/clipboard"             ~/.local/bin/clipboard
 ln -sf "$DOTFILES/.local/bin/sway-alt-tab"          ~/.local/bin/sway-alt-tab
 ln -sf "$DOTFILES/.local/bin/first-empty-workspace" ~/.local/bin/first-empty-workspace
-chmod +x "$DOTFILES/.local/bin/sway-alt-tab" "$DOTFILES/.local/bin/first-empty-workspace"
+chmod +x \
+  "$DOTFILES/.local/bin/clipboard" \
+  "$DOTFILES/.local/bin/sway-alt-tab" \
+  "$DOTFILES/.local/bin/first-empty-workspace"
 
 echo ""
 echo "==> Done! Next steps:"

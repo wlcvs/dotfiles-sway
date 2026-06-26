@@ -1,0 +1,2 @@
+#!/bin/sh
+cliphist list | fzf --no-preview | cliphist decode | wl-copy
