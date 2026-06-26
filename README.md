@@ -1,9 +1,12 @@
 # dotfiles-sway
 
-Sway WM configuration for **Fedora 44** on a ThinkPad.
+Sway WM configuration — distro-agnostic.
 
-> This is the archived Sway setup. For the base dotfiles (shell, editor, terminal),
-> see [dotfiles](https://github.com/wlcvs/dotfiles). Install base first.
+> Requires [base dotfiles](https://github.com/wlcvs/dotfiles) installed first.
+
+## Design
+
+Monochromatic — only black, white and gray. JetBrains Mono. No icons, no rounded corners.
 
 ## Stack
 
@@ -12,27 +15,70 @@ Sway WM configuration for **Fedora 44** on a ThinkPad.
 | Compositor | Sway |
 | Bar | Waybar |
 | Screen lock | swaylock + swayidle |
-| Login manager | greetd + tuigreet |
-| Launcher | Rofi (config in base dotfiles) |
-| Notifications | Dunst (config in base dotfiles) |
+| Login manager | greetd + tuigreet (optional) |
+| Launcher | Rofi |
+| Notifications | Dunst |
 | Screenshots | Grimshot (grim + slurp) |
 | Clipboard history | cliphist + wl-clipboard |
 | Night mode | wlsunset |
 
-## Design
-
-Monochromatic HUD — only black, white and gray. JetBrains Mono. No icons, no rounded corners.
-
 ## Installation
 
-```bash
-# 1. Install base dotfiles first
-git clone https://github.com/wlcvs/dotfiles ~/dotfiles && ~/dotfiles/install.sh
+### 1. Install packages
 
-# 2. Then install Sway layer
+**Arch**
+```bash
+sudo pacman -S --needed \
+  sway waybar swaylock swayidle swaynag \
+  grim slurp grimshot \
+  wlsunset cliphist wl-clipboard \
+  rofi dunst \
+  greetd tuigreet \
+  python-i3ipc python-gobject gtk-layer-shell
+
+yay -S --needed autotiling
+```
+
+**Debian / Ubuntu**
+```bash
+sudo apt install \
+  sway waybar swaylock swayidle \
+  grim slurp \
+  wlsunset wl-clipboard \
+  rofi dunst \
+  greetd \
+  python3-i3ipc python3-gi gir1.2-gtk-layer-shell-0.1
+
+pip3 install autotiling --user
+# cliphist: install from https://github.com/sentriz/cliphist/releases
+```
+
+**Fedora**
+```bash
+sudo dnf install \
+  sway waybar swaylock swayidle \
+  grim slurp grimshot \
+  wlsunset wl-clipboard cliphist \
+  rofi dunst \
+  greetd tuigreet \
+  python3-i3ipc python3-gobject gtk-layer-shell
+
+pip3 install autotiling --user
+```
+
+### 2. Run install script
+```bash
 git clone https://github.com/wlcvs/dotfiles-sway ~/dotfiles-sway
 chmod +x ~/dotfiles-sway/install.sh
 ~/dotfiles-sway/install.sh
+```
+
+### 3. (Optional) greetd login manager
+```bash
+sudo cp ~/dotfiles-sway/system/greetd-config.toml /etc/greetd/config.toml
+# Create greeter user if needed:
+id greeter &>/dev/null || sudo useradd -M -G video greeter
+sudo systemctl enable greetd
 ```
 
 ## Keybindings
@@ -52,7 +98,7 @@ chmod +x ~/dotfiles-sway/install.sh
 | `Super+R` | Resize mode |
 | `Super+F` | Fullscreen |
 | `Super+Shift+Space` | Toggle floating |
-| `Super+Minus` | Scratchpad show |
+| `Super+Minus` | Scratchpad |
 | `Super+Shift+P` | Clipboard history |
 | `Super+Shift+B` | Toggle Waybar |
 | `Print` | Area → clipboard |
@@ -61,7 +107,6 @@ chmod +x ~/dotfiles-sway/install.sh
 
 ## Notes
 
-- `volume-popup` and `wifi-popup` in `.local/bin/` are archived (GtkLayerShell was unreliable on Wayland)
-- `sway-alt-tab` requires `python3-i3ipc`
-- logind power config (`system/logind-thinkpad.conf`) lives in the base dotfiles
-- greetd requires a dedicated `greeter` user — created automatically by install.sh
+- `sway-alt-tab` requires `python-i3ipc`
+- `waybar/config.jsonc` references `~/.local/bin/power-profile` (from base dotfiles)
+- `volume-popup` and `wifi-popup` are archived — GtkLayerShell was unreliable

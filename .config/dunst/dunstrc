@@ -1,0 +1,80 @@
+[global]
+    monitor = 0
+    follow = mouse
+    width = 320
+    height = (0, 100)
+    origin = top-right
+    offset = (12, 12)
+    scale = 0
+    notification_limit = 5
+    progress_bar = false
+    indicate_hidden = yes
+    transparency = 0
+    separator_height = 1
+    padding = 12
+    horizontal_padding = 14
+    text_icon_padding = 0
+    frame_width = 1
+    frame_color = "#27272a"
+    gap_size = 6
+    separator_color = frame
+    sort = yes
+    idle_threshold = 0
+    font = JetBrains Mono 10
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = no
+    enable_recursive_icon_lookup = false
+    icon_theme = hicolor
+    icon_position = off
+    min_icon_size = 0
+    max_icon_size = 32
+    sticky_history = yes
+    history_length = 20
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    corner_radius = 0
+    ignore_dbusclose = false
+    force_xwayland = false
+    force_xinerama = false
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[experimental]
+    per_monitor_dpi = false
+
+[urgency_low]
+    background = "#0a0a0a"
+    foreground = "#71717a"
+    frame_color = "#18181b"
+    timeout = 4
+
+[urgency_normal]
+    background = "#0a0a0a"
+    foreground = "#a1a1aa"
+    frame_color = "#27272a"
+    timeout = 6
+
+[urgency_critical]
+    background = "#111111"
+    foreground = "#e4e4e7"
+    frame_color = "#71717a"
+    timeout = 0
+
+[network_manager]
+    appname = "NetworkManager"
+    skip_display = true
+
+[nm_applet]
+    appname = "nm-applet"
+    skip_display = true

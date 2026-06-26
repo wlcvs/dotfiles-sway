@@ -1,30 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-# Requires base dotfiles to be installed first:
-# https://github.com/wlcvs/dotfiles
+# Sway WM dotfiles
+# Install required packages first (see README for your distro), then run this.
+# Requires base dotfiles: https://github.com/wlcvs/dotfiles
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-echo "==> Installing Sway stack packages (Fedora/dnf)..."
-sudo dnf install -y \
-  sway \
-  grim slurp grimshot \
-  swaylock swayidle \
-  waybar \
-  wlsunset \
-  cliphist wl-clipboard \
-  greetd tuigreet \
-  autotiling \
-  python3-i3ipc \
-  gtk-layer-shell \
-  python3-gobject
-
-echo "==> Configuring greetd (replaces SDDM)..."
-sudo cp "$DOTFILES/system/greetd-config.toml" /etc/greetd/config.toml
-id greeter &>/dev/null || sudo useradd -M -G video greeter
-sudo systemctl disable sddm 2>/dev/null || true
-sudo systemctl enable greetd
 
 echo "==> Linking Sway configs..."
 mkdir -p ~/.config/sway/config.d
@@ -49,7 +30,23 @@ ln -sf "$DOTFILES/.config/swaylock/config" ~/.config/swaylock/
 mkdir -p ~/.config/swaynag
 ln -sf "$DOTFILES/.config/swaynag/config" ~/.config/swaynag/
 
-echo "==> Linking Sway scripts..."
+echo "==> Linking Rofi, Dunst and GTK configs..."
+mkdir -p ~/.config/rofi
+ln -sf "$DOTFILES/.config/rofi/config.rasi" ~/.config/rofi/
+ln -sf "$DOTFILES/.config/rofi/theme.rasi"  ~/.config/rofi/
+
+mkdir -p ~/.config/dunst
+ln -sf "$DOTFILES/.config/dunst/dunstrc" ~/.config/dunst/
+
+mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
+ln -sf "$DOTFILES/.config/gtk-3.0/settings.ini" ~/.config/gtk-3.0/
+ln -sf "$DOTFILES/.config/gtk-4.0/settings.ini" ~/.config/gtk-4.0/
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface cursor-theme 'DMZ-White'
+gsettings set org.gnome.desktop.interface cursor-size 24
+
+echo "==> Linking scripts..."
 mkdir -p ~/.local/bin
 ln -sf "$DOTFILES/.local/bin/sway-alt-tab"          ~/.local/bin/sway-alt-tab
 ln -sf "$DOTFILES/.local/bin/first-empty-workspace" ~/.local/bin/first-empty-workspace
@@ -57,5 +54,5 @@ chmod +x "$DOTFILES/.local/bin/sway-alt-tab" "$DOTFILES/.local/bin/first-empty-w
 
 echo ""
 echo "==> Done! Next steps:"
-echo "    1. Reboot (applies greetd login manager)"
-echo "    2. Run: swaymsg reload (applies Sway config)"
+echo "    1. greetd: sudo cp system/greetd-config.toml /etc/greetd/config.toml"
+echo "    2. Start Sway or run: swaymsg reload"
