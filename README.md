@@ -1,6 +1,6 @@
 # dotfiles-sway
 
-Sway WM configuration — distro-agnostic.
+Sway WM configuration for Arch Linux.
 
 > Requires [base dotfiles](https://github.com/wlcvs/dotfiles) installed first.
 
@@ -26,7 +26,6 @@ Monochromatic — only black, white and gray. JetBrains Mono. No icons, no round
 
 ### 1. Install packages
 
-**Arch**
 ```bash
 sudo pacman -S --needed \
   sway waybar swaylock swayidle swaynag \
@@ -36,34 +35,7 @@ sudo pacman -S --needed \
   greetd tuigreet \
   python-i3ipc python-gobject gtk-layer-shell
 
-yay -S --needed autotiling
-```
-
-**Debian / Ubuntu**
-```bash
-sudo apt install \
-  sway waybar swaylock swayidle \
-  grim slurp \
-  wlsunset wl-clipboard \
-  rofi dunst \
-  greetd \
-  python3-i3ipc python3-gi gir1.2-gtk-layer-shell-0.1
-
-pip3 install autotiling --user
-# cliphist: install from https://github.com/sentriz/cliphist/releases
-```
-
-**Fedora**
-```bash
-sudo dnf install \
-  sway waybar swaylock swayidle \
-  grim slurp grimshot \
-  wlsunset wl-clipboard cliphist \
-  rofi dunst \
-  greetd tuigreet \
-  python3-i3ipc python3-gobject gtk-layer-shell
-
-pip3 install autotiling --user
+yay -S --needed autotiling dmz-cursor-themes
 ```
 
 ### 2. Run install script

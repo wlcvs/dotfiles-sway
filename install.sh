@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Sway WM dotfiles
-# Install required packages first (see README for your distro), then run this.
+# Sway WM dotfiles for Arch Linux
+# Install required packages first (see README), then run this.
 # Requires base dotfiles: https://github.com/wlcvs/dotfiles
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -34,25 +34,13 @@ mkdir -p ~/.local/share/applications
 cp "$DOTFILES/applications/"*.desktop ~/.local/share/applications/
 cp "$DOTFILES/applications/hidden/"*.desktop ~/.local/share/applications/
 
-echo "==> Installing DMZ-White cursor theme..."
-if [ ! -d ~/.local/share/icons/DMZ-White ]; then
-    DEB_URL="http://ftp.debian.org/debian/pool/main/d/dmz-cursor-theme/dmz-cursor-theme_0.4.5_all.deb"
-    curl -fsSL "$DEB_URL" -o /tmp/dmz.deb
-    (
-        cd /tmp
-        ar x dmz.deb
-        DATA=$(ls data.tar.* 2>/dev/null | head -1)
-        if [ -z "$DATA" ]; then
-            echo "    warning: could not find data archive inside dmz.deb"
-        else
-            tar -xf "$DATA"
-            mkdir -p ~/.local/share/icons
-            cp -r /tmp/usr/share/icons/DMZ-White ~/.local/share/icons/
-        fi
-        rm -f dmz.deb control.tar.* data.tar.* debian-binary
-    )
+echo "==> Checking DMZ-White cursor theme..."
+if [ -d /usr/share/icons/DMZ-White ]; then
+    echo "    found system-wide (dmz-cursor-themes package)"
+elif [ -d ~/.local/share/icons/DMZ-White ]; then
+    echo "    found in ~/.local/share/icons"
 else
-    echo "    skipped: DMZ-White already installed"
+    echo "    warning: DMZ-White not found — install via: yay -S dmz-cursor-themes"
 fi
 
 echo "==> Linking Rofi, Dunst and GTK configs..."
