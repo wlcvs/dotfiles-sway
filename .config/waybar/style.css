@@ -48,6 +48,7 @@ window#waybar {
     padding: 0 14px;
     letter-spacing: 0.08em;
     font-size: 10px;
+    border-bottom: 1px solid #18181b;
 }
 
 /* Window title */
