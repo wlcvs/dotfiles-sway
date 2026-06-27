@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 # Sway WM dotfiles for Arch Linux
-# Install required packages first (see README), then run this.
 # Requires base dotfiles: https://github.com/wlcvs/dotfiles
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "==> Installing packages..."
+sudo pacman -S --needed --noconfirm \
+  sway waybar swaylock swayidle sway-contrib \
+  grim slurp \
+  wlsunset cliphist wl-clipboard \
+  rofi dunst \
+  greetd greetd-tuigreet \
+  python-i3ipc python-gobject gtk-layer-shell
+
+if command -v yay &>/dev/null; then
+    yay -S --needed --noconfirm autotiling dmz-cursor-themes
+else
+    echo "    warning: yay not found — install autotiling and dmz-cursor-themes manually"
+fi
 
 echo "==> Linking Sway configs..."
 mkdir -p ~/.config/sway/config.d
@@ -33,15 +47,6 @@ echo "==> Installing desktop entries for TUI apps..."
 mkdir -p ~/.local/share/applications
 cp "$DOTFILES/applications/"*.desktop ~/.local/share/applications/
 cp "$DOTFILES/applications/hidden/"*.desktop ~/.local/share/applications/
-
-echo "==> Checking DMZ-White cursor theme..."
-if [ -d /usr/share/icons/DMZ-White ]; then
-    echo "    found system-wide (dmz-cursor-themes package)"
-elif [ -d ~/.local/share/icons/DMZ-White ]; then
-    echo "    found in ~/.local/share/icons"
-else
-    echo "    warning: DMZ-White not found — install via: yay -S dmz-cursor-themes"
-fi
 
 echo "==> Linking Rofi, Dunst and GTK configs..."
 mkdir -p ~/.config/rofi
@@ -75,7 +80,10 @@ chmod +x \
   "$DOTFILES/.local/bin/first-empty-workspace" \
   "$DOTFILES/.local/bin/grimshot"
 
+echo "==> Configuring greetd..."
+id greeter &>/dev/null || sudo useradd -M -G video greeter
+sudo cp "$DOTFILES/system/greetd-config.toml" /etc/greetd/config.toml
+sudo systemctl enable greetd
+
 echo ""
-echo "==> Done! Next steps:"
-echo "    1. greetd: sudo cp system/greetd-config.toml /etc/greetd/config.toml"
-echo "    2. Start Sway or run: swaymsg reload"
+echo "==> Done! Start Sway or run: swaymsg reload"
