@@ -44,6 +44,10 @@ else
     echo "    warning: yay not found — install autotiling manually"
 fi
 
+echo "==> Linking cursor default theme..."
+mkdir -p ~/.icons/default
+safe_link "$DOTFILES/.icons/default/index.theme" ~/.icons/default/index.theme
+
 echo "==> Linking Alacritty and Tmux configs..."
 mkdir -p ~/.config/alacritty
 safe_link "$DOTFILES/.config/alacritty/alacritty.toml" ~/.config/alacritty/alacritty.toml
