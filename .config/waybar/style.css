@@ -44,7 +44,7 @@ window#waybar {
 /* Sway mode (power menu e outros) */
 #mode {
     color: #e4e4e7;
-    background: #111111;
+    background: #0a0a0a;
     padding: 0 14px;
     letter-spacing: 0.08em;
     font-size: 10px;
