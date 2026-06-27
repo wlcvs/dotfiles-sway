@@ -1,8 +1,27 @@
 #!/usr/bin/env bash
 # Sway WM dotfiles for Arch Linux
-# Requires base dotfiles: https://github.com/wlcvs/dotfiles
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+safe_link() {
+    local src="$1" dst="$2"
+    if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+        echo "    skip: $dst"
+        return
+    fi
+    ln -sf "$src" "$dst"
+    echo "    link: $dst"
+}
+
+safe_copy() {
+    local src="$1" dst="$2"
+    if [ -f "$dst" ]; then
+        echo "    skip: $dst"
+        return
+    fi
+    cp "$src" "$dst"
+    echo "    copy: $dst"
+}
 
 echo "==> Installing packages..."
 sudo pacman -S --needed --noconfirm \
@@ -26,44 +45,45 @@ fi
 
 echo "==> Linking Sway configs..."
 mkdir -p ~/.config/sway/config.d
-ln -sf "$DOTFILES/.config/sway/config"                               ~/.config/sway/
-ln -sf "$DOTFILES/.config/sway/config.d/00-input.conf"               ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/01-terminal.conf"            ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/10-theme.conf"               ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/20-bindings-extra.conf"      ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/60-bindings-screenshot.conf" ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/90-power-menu.conf"          ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/90-swayidle.conf"            ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/95-gnome-keyring.conf"       ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/config.d/98-autostart.conf"           ~/.config/sway/config.d/
-ln -sf "$DOTFILES/.config/sway/environment"                          ~/.config/sway/
+safe_link "$DOTFILES/.config/sway/config"                               ~/.config/sway/config
+safe_link "$DOTFILES/.config/sway/config.d/00-input.conf"               ~/.config/sway/config.d/00-input.conf
+safe_link "$DOTFILES/.config/sway/config.d/01-terminal.conf"            ~/.config/sway/config.d/01-terminal.conf
+safe_link "$DOTFILES/.config/sway/config.d/10-theme.conf"               ~/.config/sway/config.d/10-theme.conf
+safe_link "$DOTFILES/.config/sway/config.d/20-bindings-extra.conf"      ~/.config/sway/config.d/20-bindings-extra.conf
+safe_link "$DOTFILES/.config/sway/config.d/60-bindings-screenshot.conf" ~/.config/sway/config.d/60-bindings-screenshot.conf
+safe_link "$DOTFILES/.config/sway/config.d/90-power-menu.conf"          ~/.config/sway/config.d/90-power-menu.conf
+safe_link "$DOTFILES/.config/sway/config.d/90-swayidle.conf"            ~/.config/sway/config.d/90-swayidle.conf
+safe_link "$DOTFILES/.config/sway/config.d/95-gnome-keyring.conf"       ~/.config/sway/config.d/95-gnome-keyring.conf
+safe_link "$DOTFILES/.config/sway/config.d/98-autostart.conf"           ~/.config/sway/config.d/98-autostart.conf
+safe_link "$DOTFILES/.config/sway/environment"                          ~/.config/sway/environment
 
 mkdir -p ~/.config/waybar
-ln -sf "$DOTFILES/.config/waybar/config.jsonc" ~/.config/waybar/
-ln -sf "$DOTFILES/.config/waybar/style.css"    ~/.config/waybar/
+safe_link "$DOTFILES/.config/waybar/config.jsonc" ~/.config/waybar/config.jsonc
+safe_link "$DOTFILES/.config/waybar/style.css"    ~/.config/waybar/style.css
 
 mkdir -p ~/.config/swaylock
-ln -sf "$DOTFILES/.config/swaylock/config" ~/.config/swaylock/
+safe_link "$DOTFILES/.config/swaylock/config" ~/.config/swaylock/config
 
 mkdir -p ~/.config/swaynag
-ln -sf "$DOTFILES/.config/swaynag/config" ~/.config/swaynag/
+safe_link "$DOTFILES/.config/swaynag/config" ~/.config/swaynag/config
 
 echo "==> Installing desktop entries for TUI apps..."
 mkdir -p ~/.local/share/applications
-cp "$DOTFILES/applications/"*.desktop ~/.local/share/applications/
-cp "$DOTFILES/applications/hidden/"*.desktop ~/.local/share/applications/
+for f in "$DOTFILES/applications/"*.desktop "$DOTFILES/applications/hidden/"*.desktop; do
+    safe_copy "$f" ~/.local/share/applications/"$(basename "$f")"
+done
 
 echo "==> Linking Rofi, Dunst and GTK configs..."
 mkdir -p ~/.config/rofi
-ln -sf "$DOTFILES/.config/rofi/config.rasi" ~/.config/rofi/
-ln -sf "$DOTFILES/.config/rofi/theme.rasi"  ~/.config/rofi/
+safe_link "$DOTFILES/.config/rofi/config.rasi" ~/.config/rofi/config.rasi
+safe_link "$DOTFILES/.config/rofi/theme.rasi"  ~/.config/rofi/theme.rasi
 
 mkdir -p ~/.config/dunst
-ln -sf "$DOTFILES/.config/dunst/dunstrc" ~/.config/dunst/
+safe_link "$DOTFILES/.config/dunst/dunstrc" ~/.config/dunst/dunstrc
 
 mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
-ln -sf "$DOTFILES/.config/gtk-3.0/settings.ini" ~/.config/gtk-3.0/
-ln -sf "$DOTFILES/.config/gtk-4.0/settings.ini" ~/.config/gtk-4.0/
+safe_link "$DOTFILES/.config/gtk-3.0/settings.ini" ~/.config/gtk-3.0/settings.ini
+safe_link "$DOTFILES/.config/gtk-4.0/settings.ini" ~/.config/gtk-4.0/settings.ini
 gsettings set org.gnome.desktop.interface gtk-theme    'Adwaita'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface cursor-theme 'DMZ-White'
@@ -71,12 +91,12 @@ gsettings set org.gnome.desktop.interface cursor-size  24
 
 echo "==> Linking scripts..."
 mkdir -p ~/.local/bin
-ln -sf "$DOTFILES/.local/bin/clipboard"             ~/.local/bin/clipboard
-ln -sf "$DOTFILES/.local/bin/volume-tui"            ~/.local/bin/volume-tui
-ln -sf "$DOTFILES/.local/bin/power-profile"         ~/.local/bin/power-profile
-ln -sf "$DOTFILES/.local/bin/sway-alt-tab"          ~/.local/bin/sway-alt-tab
-ln -sf "$DOTFILES/.local/bin/first-empty-workspace" ~/.local/bin/first-empty-workspace
-ln -sf "$DOTFILES/.local/bin/grimshot"              ~/.local/bin/grimshot
+safe_link "$DOTFILES/.local/bin/clipboard"             ~/.local/bin/clipboard
+safe_link "$DOTFILES/.local/bin/volume-tui"            ~/.local/bin/volume-tui
+safe_link "$DOTFILES/.local/bin/power-profile"         ~/.local/bin/power-profile
+safe_link "$DOTFILES/.local/bin/sway-alt-tab"          ~/.local/bin/sway-alt-tab
+safe_link "$DOTFILES/.local/bin/first-empty-workspace" ~/.local/bin/first-empty-workspace
+safe_link "$DOTFILES/.local/bin/grimshot"              ~/.local/bin/grimshot
 chmod +x \
   "$DOTFILES/.local/bin/clipboard" \
   "$DOTFILES/.local/bin/volume-tui" \
@@ -87,8 +107,13 @@ chmod +x \
 
 echo "==> Configuring greetd..."
 id greeter &>/dev/null || sudo useradd -M -G video greeter
-sudo cp "$DOTFILES/system/greetd-config.toml" /etc/greetd/config.toml
-sudo systemctl enable greetd
+if ! diff -q "$DOTFILES/system/greetd-config.toml" /etc/greetd/config.toml &>/dev/null; then
+    sudo cp "$DOTFILES/system/greetd-config.toml" /etc/greetd/config.toml
+    echo "    copy: /etc/greetd/config.toml"
+else
+    echo "    skip: /etc/greetd/config.toml"
+fi
+systemctl is-enabled greetd &>/dev/null || sudo systemctl enable greetd
 
 echo ""
 echo "==> Done! Start Sway or run: swaymsg reload"
