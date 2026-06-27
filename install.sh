@@ -7,9 +7,14 @@ DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "==> Installing packages..."
 sudo pacman -S --needed --noconfirm \
   sway waybar swaylock swayidle sway-contrib \
+  alacritty \
   grim slurp \
+  brightnessctl wireplumber playerctl \
   wlsunset cliphist wl-clipboard \
   rofi dunst \
+  gnome-keyring \
+  power-profiles-daemon \
+  fzf jq \
   greetd greetd-tuigreet \
   python-i3ipc python-gobject gtk-layer-shell
 

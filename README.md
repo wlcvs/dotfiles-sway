@@ -2,8 +2,6 @@
 
 Sway WM configuration for Arch Linux.
 
-> Requires [base dotfiles](https://github.com/wlcvs/dotfiles) installed first.
-
 ## Design
 
 Monochromatic — only black, white and gray. JetBrains Mono. No icons, no rounded corners.
@@ -59,5 +57,4 @@ git clone https://github.com/wlcvs/dotfiles-sway ~/dotfiles-sway && ~/dotfiles-s
 
 ## Notes
 
-- `waybar/config.jsonc` references `~/.local/bin/power-profile` (from base dotfiles)
 - `volume-popup` and `wifi-popup` are archived — GtkLayerShell was unreliable
