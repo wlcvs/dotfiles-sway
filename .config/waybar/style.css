@@ -81,10 +81,6 @@ window#waybar {
     border-left: 1px solid #18181b;
 }
 
-#battery {
-    border-left: 1px solid #18181b;
-}
-
 #clock {
     color: #a1a1aa;
 }

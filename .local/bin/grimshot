@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Minimal grimshot — wraps grim + slurp + wl-copy
+
+NOTIFY=no
+[[ "$1" == "--notify" ]] && { NOTIFY=yes; shift; }
+ACTION="$1"   # copy | save
+SUBJECT="$2"  # area | active | output
+
+notify() {
+    [[ "$NOTIFY" == yes ]] && dunstify -t 2000 "Screenshot" "$1"
+}
+
+save_path() {
+    mkdir -p ~/Pictures
+    echo ~/Pictures/screenshot-$(date +%Y%m%d_%H%M%S).png
+}
+
+case "$SUBJECT" in
+    area)
+        GEOM=$(slurp) || exit 1
+        if [[ "$ACTION" == copy ]]; then
+            grim -g "$GEOM" - | wl-copy && notify "Area copied"
+        else
+            F=$(save_path); grim -g "$GEOM" "$F" && notify "Saved: $F"
+        fi
+        ;;
+    active)
+        GEOM=$(swaymsg -t get_tree \
+            | jq -r '.. | objects | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"' \
+            | head -1)
+        if [[ "$ACTION" == copy ]]; then
+            grim -g "$GEOM" - | wl-copy && notify "Window copied"
+        else
+            F=$(save_path); grim -g "$GEOM" "$F" && notify "Saved: $F"
+        fi
+        ;;
+    output|screen|*)
+        if [[ "$ACTION" == copy ]]; then
+            grim - | wl-copy && notify "Screen copied"
+        else
+            F=$(save_path); grim "$F" && notify "Saved: $F"
+        fi
+        ;;
+esac

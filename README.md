@@ -74,12 +74,28 @@ chmod +x ~/dotfiles-sway/install.sh
 ```
 
 ### 3. (Optional) greetd login manager
+
+> **Warning:** do this only after confirming all steps above work.
+> Getting greetd wrong locks you out — follow the order exactly.
+
 ```bash
-sudo cp ~/dotfiles-sway/system/greetd-config.toml /etc/greetd/config.toml
-# Create greeter user if needed:
+# 1. Disable any existing display manager first
+sudo systemctl disable gdm sddm lightdm ly 2>/dev/null || true
+
+# 2. Ensure tuigreet is installed and the greeter user exists
+which tuigreet || { echo "Install tuigreet first"; exit 1; }
 id greeter &>/dev/null || sudo useradd -M -G video greeter
-sudo systemctl enable greetd
+
+# 3. Verify the sway session file is present
+ls /usr/share/wayland-sessions/sway.desktop || { echo "Sway session file missing"; exit 1; }
+
+# 4. Copy config and enable greetd
+sudo cp ~/dotfiles-sway/system/greetd-config.toml /etc/greetd/config.toml
+sudo systemctl enable --now greetd
 ```
+
+**If greetd breaks login:** switch to a TTY (Ctrl+Alt+F3), log in as root,
+run `systemctl disable greetd` and reboot.
 
 ## Keybindings
 
