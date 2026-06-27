@@ -35,13 +35,19 @@ sudo pacman -S --needed --noconfirm \
   power-profiles-daemon \
   fzf jq \
   greetd greetd-tuigreet \
-  python-i3ipc python-gobject gtk-layer-shell
+  python-i3ipc python-gobject gtk-layer-shell \
+  xcursor-vanilla-dmz
 
 if command -v yay &>/dev/null; then
-    yay -S --needed --noconfirm autotiling dmz-cursor-themes
+    yay -S --needed --noconfirm autotiling
 else
-    echo "    warning: yay not found — install autotiling and dmz-cursor-themes manually"
+    echo "    warning: yay not found — install autotiling manually"
 fi
+
+echo "==> Linking Alacritty and Tmux configs..."
+mkdir -p ~/.config/alacritty
+safe_link "$DOTFILES/.config/alacritty/alacritty.toml" ~/.config/alacritty/alacritty.toml
+safe_link "$DOTFILES/.tmux.conf" ~/.tmux.conf
 
 echo "==> Linking Sway configs..."
 mkdir -p ~/.config/sway/config.d
@@ -86,7 +92,7 @@ safe_link "$DOTFILES/.config/gtk-3.0/settings.ini" ~/.config/gtk-3.0/settings.in
 safe_link "$DOTFILES/.config/gtk-4.0/settings.ini" ~/.config/gtk-4.0/settings.ini
 gsettings set org.gnome.desktop.interface gtk-theme    'Adwaita'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-gsettings set org.gnome.desktop.interface cursor-theme 'DMZ-White'
+gsettings set org.gnome.desktop.interface cursor-theme 'Vanilla-DMZ'
 gsettings set org.gnome.desktop.interface cursor-size  24
 
 echo "==> Linking scripts..."
